@@ -3,6 +3,8 @@ package com.example.all_in_one_chat.ui.auth.navigation
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -10,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.compose.ui.platform.LocalInspectionMode
 import com.example.all_in_one_chat.ui.auth.mvi.AuthViewModel
 import com.example.all_in_one_chat.ui.auth.mvi.AuthViewEvent
+import com.example.all_in_one_chat.ui.auth.mvi.AuthViewState
 import com.example.all_in_one_chat.ui.auth.screen.LoginScreen
 import com.example.all_in_one_chat.ui.auth.screen.SignUpScreen
 import com.example.all_in_one_chat.ui.auth.screen.PasswordResetScreen
@@ -27,18 +30,18 @@ fun NavGraphBuilder.authNavGraph(
     onAuthenticationSuccess: () -> Unit
 ) {
     composable(AuthNavigationRoutes.LOGIN) {
-        val viewModel: AuthViewModel = if (LocalInspectionMode.current) hiltViewModel() else hiltViewModel()
-        val viewState by viewModel.viewState.collectAsState()
+        val viewModel: AuthViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()
+        val viewState by (viewModel?.viewState?.collectAsState() ?: remember { mutableStateOf(AuthViewState()) })
 
         LoginScreen(
             email = viewState.emailInput,
             password = viewState.passwordInput,
             isLoading = viewState.isLoading,
             error = viewState.error,
-            onEmailChange = { viewModel.handleEvent(AuthViewEvent.EmailChanged(it)) },
-            onPasswordChange = { viewModel.handleEvent(AuthViewEvent.PasswordChanged(it)) },
+            onEmailChange = { viewModel?.handleEvent(AuthViewEvent.EmailChanged(it)) },
+            onPasswordChange = { viewModel?.handleEvent(AuthViewEvent.PasswordChanged(it)) },
             onLoginClick = {
-                viewModel.handleEvent(AuthViewEvent.SignInClicked)
+                viewModel?.handleEvent(AuthViewEvent.SignInClicked)
             },
             onSignUpClick = {
                 navController.navigate(AuthNavigationRoutes.SIGN_UP)
@@ -47,7 +50,7 @@ fun NavGraphBuilder.authNavGraph(
                 navController.navigate(AuthNavigationRoutes.PASSWORD_RESET)
             },
             onDismissError = {
-                viewModel.handleEvent(AuthViewEvent.DismissError)
+                viewModel?.handleEvent(AuthViewEvent.DismissError)
             }
         )
 
@@ -60,8 +63,8 @@ fun NavGraphBuilder.authNavGraph(
     }
 
     composable(AuthNavigationRoutes.SIGN_UP) {
-        val viewModel: AuthViewModel = if (LocalInspectionMode.current) hiltViewModel() else hiltViewModel()
-        val viewState by viewModel.viewState.collectAsState()
+        val viewModel: AuthViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()
+        val viewState by (viewModel?.viewState?.collectAsState() ?: remember { mutableStateOf(AuthViewState()) })
 
         SignUpScreen(
             email = viewState.emailInput,
@@ -70,18 +73,18 @@ fun NavGraphBuilder.authNavGraph(
             displayName = viewState.displayNameInput,
             isLoading = viewState.isLoading,
             error = viewState.error,
-            onEmailChange = { viewModel.handleEvent(AuthViewEvent.EmailChanged(it)) },
-            onPasswordChange = { viewModel.handleEvent(AuthViewEvent.PasswordChanged(it)) },
-            onConfirmPasswordChange = { viewModel.handleEvent(AuthViewEvent.ConfirmPasswordChanged(it)) },
-            onDisplayNameChange = { viewModel.handleEvent(AuthViewEvent.DisplayNameChanged(it)) },
+            onEmailChange = { viewModel?.handleEvent(AuthViewEvent.EmailChanged(it)) },
+            onPasswordChange = { viewModel?.handleEvent(AuthViewEvent.PasswordChanged(it)) },
+            onConfirmPasswordChange = { viewModel?.handleEvent(AuthViewEvent.ConfirmPasswordChanged(it)) },
+            onDisplayNameChange = { viewModel?.handleEvent(AuthViewEvent.DisplayNameChanged(it)) },
             onSignUpClick = {
-                viewModel.handleEvent(AuthViewEvent.SignUpClicked)
+                viewModel?.handleEvent(AuthViewEvent.SignUpClicked)
             },
             onLoginClick = {
                 navController.popBackStack()
             },
             onDismissError = {
-                viewModel.handleEvent(AuthViewEvent.DismissError)
+                viewModel?.handleEvent(AuthViewEvent.DismissError)
             }
         )
 
@@ -94,23 +97,23 @@ fun NavGraphBuilder.authNavGraph(
     }
 
     composable(AuthNavigationRoutes.PASSWORD_RESET) {
-        val viewModel: AuthViewModel = if (LocalInspectionMode.current) hiltViewModel() else hiltViewModel()
-        val viewState by viewModel.viewState.collectAsState()
+        val viewModel: AuthViewModel? = if (LocalInspectionMode.current) null else hiltViewModel()
+        val viewState by (viewModel?.viewState?.collectAsState() ?: remember { mutableStateOf(AuthViewState()) })
 
         PasswordResetScreen(
             email = viewState.emailInput,
             isLoading = viewState.isLoading,
             error = viewState.error,
             successMessage = viewState.successMessage,
-            onEmailChange = { viewModel.handleEvent(AuthViewEvent.EmailChanged(it)) },
+            onEmailChange = { viewModel?.handleEvent(AuthViewEvent.EmailChanged(it)) },
             onSendResetEmailClick = {
-                viewModel.handleEvent(AuthViewEvent.SendPasswordResetClicked)
+                viewModel?.handleEvent(AuthViewEvent.SendPasswordResetClicked)
             },
             onBackClick = {
                 navController.popBackStack()
             },
             onDismissError = {
-                viewModel.handleEvent(AuthViewEvent.DismissError)
+                viewModel?.handleEvent(AuthViewEvent.DismissError)
             }
         )
     }
