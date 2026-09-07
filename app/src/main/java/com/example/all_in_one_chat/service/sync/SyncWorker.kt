@@ -52,7 +52,7 @@ class SyncWorker @AssistedInject constructor(
             }
 
             Result.success()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             // 네트워크 오류 등 일시적 문제일 경우 retry
             if (runAttemptCount < 3) {
                 Result.retry()
