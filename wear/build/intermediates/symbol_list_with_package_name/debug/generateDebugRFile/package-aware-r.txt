@@ -1,0 +1,2 @@
+com.example.all_in_one_chat.wear
+string app_name

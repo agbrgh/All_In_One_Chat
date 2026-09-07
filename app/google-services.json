@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "378124427577",
+    "project_id": "chat-app-all-in-one-1811c",
+    "storage_bucket": "chat-app-all-in-one-1811c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378124427577:android:f2756daa12c0358ccb48e8",
+        "android_client_info": {
+          "package_name": "com.example.all_in_one_chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAp4FG_ZX9taAz0VZsV32VKkRLjVR5mrbo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
