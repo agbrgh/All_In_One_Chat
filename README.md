@@ -1,116 +1,351 @@
-# All In One Chat - 통합 채팅 알림 대시보드 및 멀티 서비스 클라이언트
+# All In One Chat
 
-## 📱 프로젝트 개요
+<p align="center">
+  <img src="https://img.shields.io/badge/Kotlin-2.0+-7F52FF?style=for-the-badge&logo=kotlin" alt="Kotlin" />
+  <img src="https://img.shields.io/badge/Android-Compose-34A853?style=for-the-badge&logo=android" alt="Android Compose" />
+  <img src="https://img.shields.io/badge/Firebase-Auth%20%7C%20Firestore%20%7C%20FCM-FFCA28?style=for-the-badge&logo=firebase" alt="Firebase" />
+  <img src="https://img.shields.io/badge/Wear%20OS-Supported-5B6CFF?style=for-the-badge&logo=android" alt="Wear OS" />
+  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="MIT License" />
+</p>
 
-**All In One Chat**은 여러 채팅 앱(텔레그램, 디스코드, 카카오톡, 라인 등)을 한 곳에서 관리하고 소통할 수 있는 통합 안드로이드 애플리케이션입니다. 단순한 알림 수집을 넘어, 주요 서비스에 대한 직접적인 API 연동(TDLib 등)을 통해 강력한 통합 환경을 제공합니다.
+<p align="center">
+  <strong>여러 채팅 서비스를 한 앱에서 통합 관리하는 Android 멀티 채팅 대시보드</strong>
+</p>
 
-### 🎯 핵심 기능
+---
 
-#### 1. 하이브리드 통합 아키텍처
-- **Deep Integration**: **Telegram (TDLib)**을 통한 직접 연동으로 메시지 히스토리, 미디어 전송, 계정 관리 지원
-- **Universal Listening**: `NotificationListenerService`를 활용해 카카오톡, LINE, WhatsApp, Discord 등의 알림 통합
-- **Service Management**: 각 서비스별 계정 연결 및 상태 관리 기능
+## 프로젝트 소개
 
-#### 2. 멀티 디바이스 & 어댑티브 UI
-- **Adaptive UI**: Jetpack Compose Adaptive Layout을 사용하여 폰, 태블릿, 폴더블에 최적화된 화면 제공
-- **Wear OS 지원**: 시계에서 실시간 채팅 확인 및 데이터 동기화 (`:wear` 모듈)
-- **Home Widgets**: Jetpack Glance 기반의 홈 화면 위젯으로 실시간 채팅 현황 파악
+All In One Chat은 다양한 메신저�� 채팅 서비스를 하나의 안드로이드 앱에서 통합적으로 확인하고 관리할 수 있도록 설계된 프로젝트입니다.
 
-#### 3. 고급 메시징 및 검색
-- **통합 타임라인**: 모든 서비스의 메시지를 시간순으로 정렬하여 표시
-- **Full-Text Search (FTS)**: Room FTS4를 활용한 오프라인 전체 메시지 검색
-- **미디어 갤러리**: 이미지, 동영상(Media3/ExoPlayer) 통합 뷰어 제공
+이 프로젝트는 단일 채팅 서비스 앱이 아니라, 여러 서비스의 채팅방, 메시지, 알림, 사용자 정보, 미디어를 하나의 흐름으로 통합 관리하는 "통합 채팅 대시보드"를 목표로 합니다.
 
-#### 4. 보안 및 성능
-- **보안 스토리지**: Biometric 인증 및 Tink 기반 암호화 데이터 저장
-- **배경 동기화**: WorkManager를 통한 주기적 데이터 싱크 및 백그라운드 처리
-- **오프라인 모드**: Room Database를 통한 로컬 캐싱 및 오프라인 접근성 보장
+핵심 목표는 다음과 같습니다.
 
-## 🏗️ 아키텍처
+- 여러 채팅 서비스의 메시지를 한 곳에서 확인
+- 채팅 목록, 타임라인, 검색, 미디어를 통합 관리
+- 로컬 저장소 기반 오프라인 접근
+- Firebase 기반 인증 및 데이터 연동
+- Wear OS 및 위젯 확장 지원
+- Adaptive UI를 활용한 다양한 화면 크기 대응
 
-### 기술 스택
-- **언어**: Kotlin 2.0+
-- **UI**: Jetpack Compose (Material 3, Adaptive, Glance)
-- **아키텍처**: MVI (Model-View-Intent)
-- **의존성 주입**: Hilt
-- **데이터 저장**: Room (FTS 지원), DataStore (Preferences, Proto)
-- **비동기 처리**: Coroutines & Flow
-- **네트워킹**: Retrofit2, Moshi, TDLib (Telegram)
-- **백엔드**: Firebase (Auth, Firestore, FCM, Analytics, Crashlytics)
-- **미디어**: Media3 (ExoPlayer), Coil (Image Loading)
-- **보안**: Biometric, Tink, Security Crypto
+---
 
-### 프로젝트 구조
+## 주요 기능
 
+### 1. 멀티 서비스 통합
+- Telegram / Discord / WhatsApp 등 서비스별 Adapter 구조
+- Notification Listener를 활용한 알림 기반 수집
+- 서비스별 연결 상태와 계정 관리
+
+### 2. 통합 채팅 타임라인
+- 채팅방 목록 관리
+- 메시지 기록 확인
+- 사용자별 대화 흐름 추적
+- 서비스별 타임라인 통합 화면 제공
+
+### 3. 로컬 저장 및 검색
+- Room Database 기반 로컬 저장
+- FTS 기반 전체 텍스트 검색
+- 로컬 캐시와 데이터 정리 기능
+- 오프라인 메시지 접근
+
+### 4. Firebase 기반 연동
+- Firebase Authentication
+- Firestore
+- Firebase Cloud Messaging
+- Analytics / Crashlytics
+
+### 5. Wear OS 및 위젯
+- 스마트워치용 모듈 구성
+- 데이터 동기화 구조
+- Glance 기반 위젯 지원
+
+### 6. 보안 및 개인 정보 보호
+- Biometric 인증
+- 보안 저장소 및 암호화 기반 처리
+- Android 권한 기반 접근 제어
+- 민감 정보 보호 설계
+
+---
+
+## 기술 스택
+
+### Android / UI
+- Kotlin
+- Android Jetpack
+- Jetpack Compose
+- Material 3
+- Navigation Compose
+- Adaptive Layout
+
+### 아키텍처
+- MVI
+- Hilt
+- Repository Pattern
+- UseCase 기반 설계
+
+### 데이터 및 저장
+- Room
+- DataStore
+- Firebase Firestore
+- Retrofit
+- Moshi
+
+### 미디어 및 확장
+- Coil
+- Media3 / ExoPlayer
+- Glance Widgets
+- Wear Compose
+
+### 보안 / 서비스
+- Android Biometric
+- Tink
+- Security Crypto
+- WorkManager
+- Notification Listener
+
+### 외부 연동
+- Telegram TDLib 기반 구조
+- Firebase Messaging
+- Firebase Auth / Firestore
+
+---
+
+## 프로젝트 구조
+
+```text
+All_In_One_Chat/
+├── app/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── AndroidManifest.xml
+│   │   │   ├── java/com/example/all_in_one_chat/
+│   │   │   │   ├── data/
+│   │   │   │   │   ├── local/
+│   │   │   │   │   ├── mapper/
+│   │   │   │   │   ├── model/
+│   │   │   │   │   ├── remote/
+│   │   │   │   │   └── repository/
+│   │   │   │   ├── di/
+│   │   │   │   ├── domain/
+│   │   │   │   │   ├── model/
+│   │   │   │   │   ├── repository/
+│   │   │   │   │   └── usecase/
+│   │   │   │   ├── mvi/
+│   │   │   │   ├── service/
+│   │   │   │   │   ├── analytics/
+│   │   │   │   │   ├── notification/
+│   │   │   │   │   ├── security/
+│   │   │   │   │   └── sync/
+│   │   │   │   ├── ui/
+│   │   │   │   │   ├── auth/
+│   │   │   │   │   ├── chat/
+│   │   │   │   │   ├── media/
+│   │   │   │   │   ├── navigation/
+│   │   │   │   │   ├── search/
+│   │   │   │   │   ├── settings/
+│   │   │   │   │   ├── timeline/
+│   │   │   │   │   └── theme/
+│   │   │   │   ├── AllInOneChatApp.kt
+│   │   │   │   └── MainActivity.kt
+│   │   │   └── res/
+│   │   ├── test/
+│   │   └── androidTest/
+│   ├── build.gradle.kts
+│   ├── google-services.json
+│   ├── proguard-rules.pro
+│   └── .gitignore
+├── wear/
+│   ├── src/
+│   ├── build.gradle.kts
+│   └── .gitignore
+├── functions/
+│   ├── index.js
+│   ├── package.json
+│   └── package-lock.json
+├── build.gradle.kts
+├── settings.gradle.kts
+├── gradlew
+├── gradlew.bat
+├── gradle/
+├── .firebaserc
+├── firebase.json
+├── README.md
+├── tdlib_tmp.aar
+├── tgx_version.txt
+├── skills-lock.json
+└── build_output.log
 ```
-All_In_One_Chat
-├── app (Mobile Application)
-│   ├── data (Local, Remote, Repository, Mapper, Service Adapters)
-│   ├── domain (Model, Repository Interfaces, UseCases)
-│   ├── ui (MVI Components, Screens, Navigation, Theme)
-│   └── service (Notification Listener, Sync, Security)
-├── wear (Wear OS Application)
-│   ├── ui (Wearable Screens)
-│   └── service (Data Layer Sync)
-├── functions (Firebase Cloud Functions)
-└── gradle (Build Configurations)
+
+---
+
+## 설치 및 실행
+
+### 요구 사항
+- Android Studio 최신 버전 권장
+- JDK 17 이상 권장
+- Android SDK 26 이상
+- Firebase 프로젝트
+- Google Services 설정 파일
+- Telegram 연동을 위한 API 정보 (필요한 경우)
+
+### 1. 저장소 클론
+
+```bash
+git clone https://github.com/agbrgh/All_In_One_Chat.git
+cd All_In_One_Chat
 ```
 
-## 🚀 시작하기
+### 2. Firebase 설정
+프로젝트 루트의 `app/` 폴더에 `google-services.json` 파일을 추가해야 합니다.
 
-### 사전 요구사항
-- Android Studio Ladybug 이상 권장
-- Android SDK 26 (minSdk) ~ 35 (compileSdk)
-- Firebase 프로젝트 설정 (`google-services.json` 필요)
-- Telegram API ID & Hash (Telegram 연동 필요 시)
+```bash
+# 예시
+# app/google-services.json
+```
 
-### 설치 및 실행
+Firebase Console에서 Android 앱을 등록한 뒤 다운로드한 파일을 아래 경로에 저장합니다.
 
-1. **프로젝트 클론**
-   ```bash
-   git clone https://github.com/your-repo/All_In_One_Chat.git
-   ```
+```text
+app/google-services.json
+```
 
-2. **Firebase 설정**
-   - `app/` 디렉토리에 `google-services.json` 추가
+### 3. 빌드
 
-3. **Telegram API 설정**
-   - `TelegramConfig.kt` (또는 local.properties)에 API_ID와 API_HASH 설정
+```bash
+./gradlew assembleDebug
+```
 
-4. **빌드 및 실행**
-   ```bash
-   ./gradlew :app:installDebug
-   ```
+또는 디버그 설치용 실행:
 
-## 🔐 주요 구현 상세
+```bash
+./gradlew :app:installDebug
+```
 
-### MVI (Model-View-Intent)
-모든 화면은 예측 가능한 상태 관리를 위해 MVI 패턴을 따릅니다.
-- **Intent**: 사용자 액션 정의
-- **State**: UI에 반영될 불변(Immutable) 데이터 모델
-- **Effect**: 토스트, 네비게이션 등 단발성 이벤트 처리
+### 4. Wear 모듈 빌드
 
-### Telegram 통합 (TDLib)
-`tdlib_tmp.aar`을 활용하여 네이티브 레벨에서 텔레그램 프로토콜을 처리합니다. 이를 통해 알림 없이도 메시지를 주고받고 미디어를 다운로드할 수 있습니다.
+```bash
+./gradlew :wear:assembleDebug
+```
 
-### Adaptive Layout
-`ListDetailPaneScaffold` 등을 활용하여 화면 크기에 따라 리스트-상세 뷰가 자동으로 전환됩니다.
+---
 
-## 🛠️ 권한 요구사항
-- `BIND_NOTIFICATION_LISTENER_SERVICE`: 알림 수집을 위한 필수 권한
-- `USE_BIOMETRIC`: 보안 설정 시 생체 인증 사용
-- `POST_NOTIFICATIONS`: Android 13+ 알림 표시 권한
-- `INTERNET`: 서비스 연동 및 Firebase 통신
+## 주요 모듈 설명
 
-## 📊 로드맵 및 진행 현황
+### app 모듈
+메인 모바일 앱이 위치하는 모듈입니다.
 
-- [x] **Phase 1: 통합 알림 리스너 및 기본 UI**
-- [x] **Phase 2: 로컬 캐싱 및 MVI 아키텍처 완성**
-- [x] **Phase 3: Telegram 직접 연동 (TDLib) 및 Discord 연동**
-- [x] **Phase 4: Wear OS 앱 및 홈 화면 위젯**
-- [ ] **Phase 5: AI 기반 스마트 답장 및 메시지 요약**
-- [ ] **Phase 6: 다양한 서비스(Slack, Teams 등) 직접 연동 확장**
+- UI 화면 구성
+- 채팅 메시지 처리
+- Firebase 연동
+- 로컬 DB 및 검색
+- MVI 기반 상태 관리
+- Notification 및 Sync 관련 서비스
 
-## 📝 라이선스
-이 프로젝트는 [MIT 라이선스](https://opensource.org/licenses/MIT)를 따릅니다.
-TDLib 사용 시 [Telegram 라이선스](https://github.com/tdlib/td/blob/master/LICENSE_1_0.txt) 정책을 준수해야 합니다.
+### wear 모듈
+스마트워치 전용 앱 모듈입니다.
+
+- Wear OS 화면 구성
+- 메시지 확인 흐름
+- 데이터 동기화 처리
+- 경량 사용자 경험 제공
+
+### functions 모듈
+Firebase Functions 기반 백엔드 구성 요소입니다.
+
+- 서버 로직 확장
+- Firebase와 연결된 백엔드 기능
+- 모바일 앱 연동을 위한 확장 처리
+
+---
+
+## 아키텍처 개요
+
+```text
+UI Layer
+  └── Compose Screens / Navigation / MVI
+
+Domain Layer
+  └── Model / Repository Interface / UseCase
+
+Data Layer
+  ├── Room
+  ├── Firebase
+  ├── Retrofit / Moshi
+  └── Service Adapters
+
+Service Layer
+  ├── Notification Listener
+  ├── Sync Manager
+  ├── Security
+  └── Background Worker
+```
+
+이 구조는 기능별 분리와 확장성을 위해 설계되었으며, 각 서비스와 UI 로직을 독립적으로 관리할 수 있도록 구성되어 있습니다.
+
+---
+
+## 권한 및 보안
+
+Android 앱은 실시간 메시지 수집과 사용자 경험을 위해 일부 권한을 활용할 수 있습니다.
+
+필수 또는 권장 권한:
+
+- `INTERNET`
+- `POST_NOTIFICATIONS` (Android 13+)
+- `USE_BIOMETRIC`
+- `BIND_NOTIFICATION_LISTENER_SERVICE`
+
+보안 관련 구성:
+
+- Biometric 인증
+- 암호화 저장소
+- 로컬 DB 기반 저장
+- Firebase 보안 설정 적용
+
+---
+
+## 로드맵
+
+- [x] 통합 채팅 구조 설계
+- [x] 로컬 데이터 저장 및 검색 기능 구성
+- [x] Firebase 연동 구조 설계
+- [x] Wear OS 모듈 추가
+- [x] 위젯 및 통합 UI 구성
+- [ ] AI 기반 메시지 요약 기능
+- [ ] 추가 서비스 연동 (Slack, Teams 등)
+- [ ] 보안 및 운영 기능 강화
+
+---
+
+## 라이선스
+
+이 프로젝트는 [MIT 라이선스](https://opensource.org/licenses/MIT)를 적용합니다.
+
+---
+
+## 기여하기
+
+기여를 환영합니다.
+
+```bash
+git checkout -b feature/my-feature
+git commit -m "Add my feature"
+git push origin feature/my-feature
+```
+
+Pull Request를 생성해 주세요.
+
+---
+
+## 연락처 및 참고
+
+이 프로젝트는 개인 개발 프로젝트로 시작되었으며, 확장형 멀티채팅 앱을 목표로 설계되고 있습니다.  
+서비스 연동, 보안, UI/UX 개선, 검색 최적화, AI 기능 확장에 대한 아이디어를 적극 환영합니다.
+
+---
+
+<p align="center">
+  <strong>Made with ❤️ for a unified messaging experience</strong>
+</p>
